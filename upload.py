@@ -80,7 +80,10 @@ class ImgConverter:
             img = Image.open(self.source)
             if img.size[1] > img.size[0]: # height > width
                 img = img.transpose(Image.Transpose.ROTATE_90)
-            img.thumbnail((width, height), Image.Resampling.LANCZOS)
+            if img.size[1] > height: 
+                img.thumbnail((width, height), Image.Resampling.LANCZOS)
+            else: # img.thumbnail doesn't work
+                img = img.resize((width, height),Image.Resampling.LANCZOS)
             grayscale_img = img.convert('L')
             pixels = list(grayscale_img.getdata())
             packed_data = bytearray()
