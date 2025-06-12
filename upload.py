@@ -97,7 +97,7 @@ class ImgConverter:
                 packed_byte = (pixel2 << 4) | pixel1
                 packed_data.append(packed_byte)
 
-            header_string = "#file#000801314144demo.jpg"
+            header_string = "#file#000801314144imagebin"
             hex_to_add = header_string.encode('utf-8').hex()
             combined_data = bytes.fromhex(hex_to_add) + packed_data
             logger.debug(f"successfully converted image '{self.source}'")
