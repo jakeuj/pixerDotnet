@@ -28,7 +28,7 @@ To communicate with the device, transfer cmd to `192.168.1.1:6000` through tcp.
 | `iteVersion`   | get screen controller firmware version | `GBT_v.A.35`        |
 | `batteryLevel` | get battery level                      | `88`                |
 
-To upload an image, you need to create a binary payload. The header is `#file#000801314144demo.jpg`, which is followed by the image data. The image size must be 1872x1404, each pixel is represented as a 4-bit grayscale value. For each 8-bit value , you should first pack the 4-bit value of the 2nd pixel, then the value for the 1st pixel. After sending the payload, when the response is arrived, send `#MOVE#d`
+To upload an image, you need to create a binary payload. The header is `#file#000801314144demo.jpg` or `#file#000801314144imagebin`, which is followed by the image data. The image size must be 1872x1404, each pixel is represented as a 4-bit grayscale value. For each 8-bit value , you should first pack the 4-bit value of the 2nd pixel, then the value for the 1st pixel. After sending the payload, when the response is arrived, send `#MOVE#d`
 
 ### License
 
