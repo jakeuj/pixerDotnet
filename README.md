@@ -30,6 +30,8 @@ To communicate with the device, transfer cmd to `192.168.1.1:6000` through tcp.
 
 To upload an image, you need to create a binary payload. The header is `#file#000801314144demo.jpg` or `#file#000801314144imagebin`, which is followed by the image data. The image size must be 1872x1404, each pixel is represented as a 4-bit grayscale value. For each 8-bit value , you should first pack the 4-bit value of the 2nd pixel, then the value for the 1st pixel. After sending the payload, when the response is arrived, send `#MOVE#d`
 
+You can access the mobile app for both iOS and android from archive.org. [link](https://archive.org/details/pixer-3.7.0)
+
 ### License
 
 Public Domain
