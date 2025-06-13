@@ -78,12 +78,24 @@ class ImgConverter:
     def convert(self, width=1872, height=1404):
         try:
             img = Image.open(self.source)
+
             if img.size[1] > img.size[0]: # height > width
                 img = img.transpose(Image.Transpose.ROTATE_90)
-            if img.size[1] > height: 
-                img.thumbnail((width, height), Image.Resampling.LANCZOS)
-            else: # img.thumbnail doesn't work
-                img = img.resize((width, height),Image.Resampling.LANCZOS)
+            img_ratio = img.width / img.height
+            target_ratio = width / height
+            if img_ratio >= target_ratio:
+                new_height = height
+                new_width = int(img.width * (new_height / img.height))
+            else:
+                new_width = width
+                new_height = int(img.height * (new_width / img.width))
+            img = img.resize((new_width, new_height), Image.LANCZOS)
+            left = (new_width - width) / 2
+            top = (new_height - height) / 2
+            right = left + width
+            bottom = top + height
+            img = img.crop((left, top, right, bottom))
+
             grayscale_img = img.convert('L')
             pixels = list(grayscale_img.getdata())
             packed_data = bytearray()
