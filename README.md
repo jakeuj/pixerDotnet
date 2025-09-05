@@ -1,37 +1,67 @@
-## Reverse Engineering the G+ Pixer E-Ink Photo Frame
+# Pixer Uploader (Modified Version)
 
-### Usage
+This project is based on [kasperis7/pixer](https://github.com/kasperis7/pixer).  
+The original functionality was to upload images to the G+ Pixer e-ink photo frame.  
+This modified version keeps the image upload feature and adds **firmware update** capability.
 
-Connect to the device's wifi hotspot, then
+---
 
-`$ python upload.py <image>`
+## Features
+- Upload images to the device  
+- Supported formats: `.jpg`, `.png`  
+- **New:** Firmware upgrade functionality (BLE/ITE/BSP)  
 
-### Hardware
+---
 
-7.8 in carta e-ink screen, resolution 1872x1404
+## Usage
 
-IT8951E e-ink controller chip
+### 1. Executable file (.exe)
+```bash
+upload.exe test.jpg
+```
 
-CC3xxx Ti WiFi-On-Chip MCU
+### 2. Python script
+```bash
+python upload.py test.jpg
+```
 
-### Protocol
+---
 
-The reset hole wakes the device, and the device will then create a wifi hotspot. 
+## Requirements (for Python version)
+- Python 3.8+
+- Required package:
+  ```bash
+  pip install pillow
+  ```
 
-To communicate with the device, transfer cmd to `192.168.1.1:6000` through tcp.
+---
 
-| cmd            | description                            | example response    |
-| -------------- | -------------------------------------- | ------------------- |
-| `#TEST#`       |                                        | `Hello PC!`         |
-| `bleVersion`   | get ble firmware version               | `GBT_BLE_v.A.14`    |
-| `mcuVersion`   | get mcu firmware version               | `GBT_170206-1_7.8A` |
-| `iteVersion`   | get screen controller firmware version | `GBT_v.A.35`        |
-| `batteryLevel` | get battery level                      | `88`                |
+## Changes
+- Added firmware update process: supports updating `ble.bin`, `pixer.bin`, etc.  
+- Improved error messages for easier debugging  
+- Preserved the original image upload workflow  
 
-To upload an image, you need to create a binary payload. The header is `#file#000801314144demo.jpg` or `#file#000801314144imagebin`, which is followed by the image data. The image size must be 1872x1404, each pixel is represented as a 4-bit grayscale value. For each 8-bit value , you should first pack the 4-bit value of the 2nd pixel, then the value for the 1st pixel. After sending the payload, when the response is arrived, send `#MOVE#d`
+---
 
-You can access the mobile app for both iOS and android from archive.org. [link](https://archive.org/details/pixer-3.7.0)
+## Firmware Upgrade Rules (Simple Version)
 
-### License
+The uploader can also update the device firmware when needed.  
+Updates are done **automatically** based on these simple rules:
 
-Public Domain
+- **Battery check**  
+  - If the battery is too low (15% or less), no update will run.
+
+- **When updates happen**  
+  - If the device firmware is out of date, the uploader will send the correct file:
+    - **BLE update** → `ble.bin`
+    - **ITE update** → `ite.bin`
+    - **BSP update** → `pixer.bin`
+
+That’s it — the tool will check and update when safe.  
+Users only need to prepare the firmware files in the same folder as the uploader.
+
+---
+
+## Reference
+- [kasperis7/pixer](https://github.com/kasperis7/pixer)
+
