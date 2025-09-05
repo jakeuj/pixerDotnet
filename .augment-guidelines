@@ -1,0 +1,9 @@
+# Pixer 逆向工程專案
+- Pixer 是一個逆向工程的 G+ E-Ink 相框專案，具有 7.8" 1872x1404 顯示器、IT8951E 控制器、CC3xxx WiFi MCU，透過 TCP 在 192.168.1.1:6000 通訊，使用 #TEST#、batteryLevel 等命令和影像上傳。
+
+# Pixer 圖片轉換與上傳
+- Pixer 圖片轉換流程：1872x1404 解析度，4位元灰階封裝（每位元組2個像素），協定標頭 #file#000801314144imagebin，使用 ImgConverter.convert() 產生二進位資料後透過 SocketClient.upload() 上傳。
+- 採用 4 位元灰階封裝格式。
+- Pixer 技術發現：Python PIL LANCZOS 與 Sharp 重新取樣演算法差異導致像素值不同，但協定標頭、封裝邏輯、輸出大小完全相同，已建立完整測試環境可驗證實作正確性。
+
+- Pixer 裝置使用方式：開機後建立 WiFi 熱點，開發機需連線此 WiFi 才能訪問裝置，但開發時需保持網際網路連線進行 AI 協作，因此實際測試需在開發完成後切換到裝置 WiFi 進行。
