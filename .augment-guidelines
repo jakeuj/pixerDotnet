@@ -1,3 +1,7 @@
+# Pixer 逆向工程專案 - C# .NET 9 轉換版本
+- 本專案是基於 [kasperis7/pixer](https://github.com/kasperis7/pixer) 的 Python 版本，將其完整轉換為 C# .NET 9 版本。
+- 用戶要求使用台灣正體中文 (zh-TW) 回應
+
 # Pixer 逆向工程專案
 - Pixer 是一個逆向工程的 G+ E-Ink 相框專案，具有 7.8" 1872x1404 顯示器、IT8951E 控制器、CC3xxx WiFi MCU，透過 TCP 在 192.168.1.1:6000 通訊，使用 #TEST#、batteryLevel 等命令和影像上傳。
 
