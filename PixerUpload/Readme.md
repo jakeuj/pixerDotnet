@@ -13,7 +13,7 @@ dotnet publish PixerUpload.csproj \
     /p:IncludeNativeLibrariesForSelfExtract=false \
     /p:PublishTrimmed=true \
     /p:DeleteExistingFiles=true \
-    -o ./bin/Release/net9.0/publish/osx-x64
+    -o ../tools
 ```
 
 ### win
@@ -27,5 +27,5 @@ dotnet publish PixerUpload.csproj \
     /p:IncludeNativeLibrariesForSelfExtract=false \
     /p:PublishTrimmed=true \
     /p:DeleteExistingFiles=true \
-    -o ./bin/Release/net9.0/publish/win-x64
+    -o ../tools
 ```
