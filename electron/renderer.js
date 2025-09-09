@@ -19,6 +19,13 @@ let selectedImagePath = null;
 // 初始化應用程式
 async function initApp() {
     try {
+        // 檢查 electronAPI 是否可用
+        if (!window.electronAPI) {
+            throw new Error('electronAPI 未定義。請確認 preload.js 已正確載入。');
+        }
+        
+        console.log('electronAPI 可用:', Object.keys(window.electronAPI));
+        
         // 載入系統資訊
         const sysInfo = await window.electronAPI.getSystemInfo();
         displaySystemInfo(sysInfo);
@@ -30,24 +37,39 @@ async function initApp() {
     } catch (error) {
         console.error('初始化失敗:', error);
         showError('應用程式初始化失敗: ' + error.message);
+        
+        // 顯示詳細的錯誤信息
+        const errorInfo = `
+            <div class="status-error">
+                <h3>初始化錯誤</h3>
+                <p><strong>錯誤訊息:</strong> ${error.message}</p>
+                <p><strong>electronAPI 狀態:</strong> ${window.electronAPI ? '已載入' : '未載入'}</p>
+                <p><strong>可用方法:</strong> ${window.electronAPI ? Object.keys(window.electronAPI).join(', ') : '無'}</p>
+            </div>
+        `;
+        if (systemInfo) {
+            systemInfo.innerHTML = errorInfo;
+        }
     }
 }
 
 // 設置事件監聽器
 function setupEventListeners() {
     // 選擇圖片按鈕
-    selectImageBtn.addEventListener('click', selectImage);
+    if (selectImageBtn) selectImageBtn.addEventListener('click', selectImage);
     
     // 上傳按鈕
-    uploadBtn.addEventListener('click', uploadImage);
+    if (uploadBtn) uploadBtn.addEventListener('click', uploadImage);
     
     // 檢查裝置按鈕
-    checkDeviceBtn.addEventListener('click', checkDevice);
+    if (checkDeviceBtn) checkDeviceBtn.addEventListener('click', checkDevice);
     
     // 監聽上傳進度
-    window.electronAPI.onUploadProgress((data) => {
-        appendProgressText(data);
-    });
+    if (window.electronAPI && window.electronAPI.onUploadProgress) {
+        window.electronAPI.onUploadProgress((data) => {
+            appendProgressText(data);
+        });
+    }
 }
 
 // 顯示系統資訊
@@ -60,7 +82,9 @@ function displaySystemInfo(info) {
         ${info.executablePath ? `<p><strong>執行檔路徑:</strong> ${info.executablePath}</p>` : ''}
         ${info.error ? `<p class="status-error"><strong>錯誤:</strong> ${info.error}</p>` : ''}
     `;
-    systemInfo.innerHTML = infoHtml;
+    if (systemInfo) {
+        systemInfo.innerHTML = infoHtml;
+    }
 }
 
 // 選擇圖片
@@ -73,7 +97,7 @@ async function selectImage() {
         if (imagePath) {
             selectedImagePath = imagePath;
             await displaySelectedImage(imagePath);
-            uploadBtn.disabled = false;
+            if (uploadBtn) uploadBtn.disabled = false;
             
             // 清除之前的結果
             hideElement(uploadResult);
@@ -91,12 +115,12 @@ async function selectImage() {
 async function displaySelectedImage(path) {
     try {
         // 設置圖片預覽
-        imagePreview.src = `file://${path}`;
-        imagePath.textContent = `路徑: ${path}`;
+        if (imagePreview) imagePreview.src = `file://${path}`;
+        if (imagePath) imagePath.textContent = `路徑: ${path}`;
         
         // 獲取檔案大小
         const stats = await getFileStats(path);
-        imageSize.textContent = `大小: ${formatFileSize(stats.size)}`;
+        if (imageSize) imageSize.textContent = `大小: ${formatFileSize(stats.size)}`;
         
         showElement(selectedImageDiv);
     } catch (error) {
@@ -124,25 +148,27 @@ function formatFileSize(bytes) {
 async function checkDevice() {
     try {
         setButtonLoading(checkDeviceBtn, true);
-        deviceStatus.innerHTML = '<p class="status-idle">檢查中...</p>';
+        if (deviceStatus) deviceStatus.innerHTML = '<p class="status-idle">檢查中...</p>';
         
         const result = await window.electronAPI.checkDevice();
         
-        if (result.success) {
-            deviceStatus.innerHTML = `
-                <p class="status-success">✅ ${result.message}</p>
-                <pre>${result.output}</pre>
-            `;
-        } else {
-            deviceStatus.innerHTML = `
-                <p class="status-error">❌ ${result.message}</p>
-                ${result.output ? `<pre>輸出: ${result.output}</pre>` : ''}
-                ${result.error ? `<pre>錯誤: ${result.error}</pre>` : ''}
-            `;
+        if (deviceStatus) {
+            if (result.success) {
+                deviceStatus.innerHTML = `
+                    <p class="status-success">✅ ${result.message}</p>
+                    <pre>${result.output}</pre>
+                `;
+            } else {
+                deviceStatus.innerHTML = `
+                    <p class="status-error">❌ ${result.message}</p>
+                    ${result.output ? `<pre>輸出: ${result.output}</pre>` : ''}
+                    ${result.error ? `<pre>錯誤: ${result.error}</pre>` : ''}
+                `;
+            }
         }
     } catch (error) {
         console.error('檢查裝置失敗:', error);
-        deviceStatus.innerHTML = `<p class="status-error">❌ ${error.message}</p>`;
+        if (deviceStatus) deviceStatus.innerHTML = `<p class="status-error">❌ ${error.message}</p>`;
     } finally {
         setButtonLoading(checkDeviceBtn, false);
     }
@@ -160,7 +186,7 @@ async function uploadImage() {
         
         // 顯示進度區域
         showElement(uploadProgress);
-        progressText.textContent = '開始上傳...\n';
+        if (progressText) progressText.textContent = '開始上傳...\n';
         hideElement(uploadResult);
         
         const result = await window.electronAPI.uploadImage(selectedImagePath);
@@ -168,19 +194,23 @@ async function uploadImage() {
         // 顯示結果
         showElement(uploadResult);
         
-        if (result.success) {
-            resultContent.className = 'result-content success';
-            resultContent.textContent = `✅ ${result.message}\n\n${result.output}`;
-        } else {
-            resultContent.className = 'result-content error';
-            resultContent.textContent = `❌ ${result.message}\n\n輸出: ${result.output}\n\n錯誤: ${result.error}`;
+        if (resultContent) {
+            if (result.success) {
+                resultContent.className = 'result-content success';
+                resultContent.textContent = `✅ ${result.message}\n\n${result.output}`;
+            } else {
+                resultContent.className = 'result-content error';
+                resultContent.textContent = `❌ ${result.message}\n\n輸出: ${result.output}\n\n錯誤: ${result.error}`;
+            }
         }
         
     } catch (error) {
         console.error('上傳失敗:', error);
         showElement(uploadResult);
-        resultContent.className = 'result-content error';
-        resultContent.textContent = `❌ 上傳失敗: ${error.message}`;
+        if (resultContent) {
+            resultContent.className = 'result-content error';
+            resultContent.textContent = `❌ 上傳失敗: ${error.message}`;
+        }
     } finally {
         setButtonLoading(uploadBtn, false);
     }
@@ -188,12 +218,16 @@ async function uploadImage() {
 
 // 附加進度文字
 function appendProgressText(text) {
-    progressText.textContent += text;
-    progressText.scrollTop = progressText.scrollHeight;
+    if (progressText) {
+        progressText.textContent += text;
+        progressText.scrollTop = progressText.scrollHeight;
+    }
 }
 
 // 設置按鈕載入狀態
 function setButtonLoading(button, loading) {
+    if (!button) return;
+    
     if (loading) {
         button.disabled = true;
         const originalText = button.innerHTML;
@@ -210,12 +244,12 @@ function setButtonLoading(button, loading) {
 
 // 顯示元素
 function showElement(element) {
-    element.style.display = 'block';
+    if (element) element.style.display = 'block';
 }
 
 // 隱藏元素
 function hideElement(element) {
-    element.style.display = 'none';
+    if (element) element.style.display = 'none';
 }
 
 // 顯示錯誤訊息
