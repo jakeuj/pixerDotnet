@@ -12,9 +12,11 @@ const uploadResult = document.getElementById('uploadResult');
 const resultContent = document.getElementById('resultContent');
 const deviceStatus = document.getElementById('deviceStatus');
 const systemInfo = document.getElementById('systemInfo');
+const debugToggle = document.getElementById('debugToggle');
 
 // 全域變數
 let selectedImagePath = null;
+let debugEnabled = debugToggle?.checked || false;
 
 // 初始化應用程式
 async function initApp() {
@@ -63,11 +65,18 @@ function setupEventListeners() {
     
     // 檢查裝置按鈕
     if (checkDeviceBtn) checkDeviceBtn.addEventListener('click', checkDevice);
-    
+
     // 監聽上傳進度
     if (window.electronAPI && window.electronAPI.onUploadProgress) {
         window.electronAPI.onUploadProgress((data) => {
             appendProgressText(data);
+        });
+    }
+
+    // Debug 開關
+    if (debugToggle) {
+        debugToggle.addEventListener('change', () => {
+            debugEnabled = debugToggle.checked;
         });
     }
 }
@@ -150,7 +159,7 @@ async function checkDevice() {
         setButtonLoading(checkDeviceBtn, true);
         if (deviceStatus) deviceStatus.innerHTML = '<p class="status-idle">檢查中...</p>';
         
-        const result = await window.electronAPI.checkDevice();
+        const result = await window.electronAPI.checkDevice(debugEnabled);
         
         if (deviceStatus) {
             if (result.success) {
@@ -189,7 +198,7 @@ async function uploadImage() {
         if (progressText) progressText.textContent = '開始上傳...\n';
         hideElement(uploadResult);
         
-        const result = await window.electronAPI.uploadImage(selectedImagePath);
+        const result = await window.electronAPI.uploadImage(selectedImagePath, debugEnabled);
         
         // 顯示結果
         showElement(uploadResult);

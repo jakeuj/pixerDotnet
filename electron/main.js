@@ -117,7 +117,7 @@ ipcMain.handle('select-image', async () => {
 });
 
 // IPC 處理程序：檢查裝置狀態
-ipcMain.handle('check-device', async () => {
+ipcMain.handle('check-device', async (event, debug) => {
   return new Promise((resolve, reject) => {
     try {
       const executablePath = getExecutablePath();
@@ -125,7 +125,10 @@ ipcMain.handle('check-device', async () => {
       console.log('執行檔路徑:', executablePath);
       console.log('工作目錄:', workingDir);
       
-      const child = spawn(executablePath, [], {
+      const args = [];
+      if (debug) args.push('--debug');
+
+      const child = spawn(executablePath, args, {
         cwd: workingDir
       });
       
@@ -176,7 +179,7 @@ ipcMain.handle('check-device', async () => {
 });
 
 // IPC 處理程序：上傳圖片
-ipcMain.handle('upload-image', async (event, imagePath) => {
+ipcMain.handle('upload-image', async (event, imagePath, debug) => {
   return new Promise((resolve, reject) => {
     try {
       const executablePath = getExecutablePath();
@@ -184,8 +187,12 @@ ipcMain.handle('upload-image', async (event, imagePath) => {
       console.log('上傳圖片 - 執行檔路徑:', executablePath);
       console.log('上傳圖片 - 工作目錄:', workingDir);
       console.log('上傳圖片 - 圖片路徑:', imagePath);
-      
-      const child = spawn(executablePath, [imagePath], {
+
+      const args = [];
+      if (debug) args.push('--debug');
+      args.push(imagePath);
+
+      const child = spawn(executablePath, args, {
         cwd: workingDir
       });
       
