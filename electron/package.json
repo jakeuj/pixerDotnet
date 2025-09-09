@@ -45,18 +45,6 @@
         {
           "from": "assets/PixerUpload.exe",
           "to": "assets/PixerUpload.exe"
-        },
-        {
-          "from": "assets/ble.bin",
-          "to": "assets/ble.bin"
-        },
-        {
-          "from": "assets/ite.bin",
-          "to": "assets/ite.bin"
-        },
-        {
-          "from": "assets/pixer.bin",
-          "to": "assets/pixer.bin"
         }
       ]
     },
@@ -68,18 +56,6 @@
         {
           "from": "assets/PixerUpload",
           "to": "assets/PixerUpload"
-        },
-        {
-          "from": "assets/ble.bin",
-          "to": "assets/ble.bin"
-        },
-        {
-          "from": "assets/ite.bin",
-          "to": "assets/ite.bin"
-        },
-        {
-          "from": "assets/pixer.bin",
-          "to": "assets/pixer.bin"
         }
       ]
     },
