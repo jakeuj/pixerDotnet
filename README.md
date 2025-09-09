@@ -1,7 +1,7 @@
 # Pixer Upload - C# .NET 9 版本
 本專案是基於 [kasperis7/pixer](https://github.com/kasperis7/pixer) 的 Python 版本，將其完整轉換為 C# .NET 9 版本。
 
-![image.png](image.png)
+![2025-09-09_16-00-01.jpg](2025-09-09_16-00-01.jpg)
 
 ## 功能特色
 
