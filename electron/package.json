@@ -33,22 +33,66 @@
       "renderer.js",
       "index.html",
       "style.css",
-      "assets/**/*"
-    ],
-    "extraResources": [
-      {
-        "from": "assets",
-        "to": "assets"
-      }
+      "assets/**/*",
+      "!assets/PixerUpload.exe",
+      "!assets/PixerUpload"
     ],
     "win": {
       "target": "nsis",
-      "icon": "assets/icon.ico"
+      "icon": "assets/icon.ico",
+      "extraResources": [
+        {
+          "from": "assets/PixerUpload.exe",
+          "to": "assets/PixerUpload.exe"
+        },
+        {
+          "from": "assets/PixerUpload.pdb",
+          "to": "assets/PixerUpload.pdb"
+        },
+        {
+          "from": "assets/ble.bin",
+          "to": "assets/ble.bin"
+        },
+        {
+          "from": "assets/ite.bin",
+          "to": "assets/ite.bin"
+        },
+        {
+          "from": "assets/pixer.bin",
+          "to": "assets/pixer.bin"
+        },
+        {
+          "from": "assets/image.png",
+          "to": "assets/image.png"
+        }
+      ]
     },
     "mac": {
       "target": "dmg",
       "icon": "assets/icon.icns",
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "extraResources": [
+        {
+          "from": "assets/PixerUpload",
+          "to": "assets/PixerUpload"
+        },
+        {
+          "from": "assets/ble.bin",
+          "to": "assets/ble.bin"
+        },
+        {
+          "from": "assets/ite.bin",
+          "to": "assets/ite.bin"
+        },
+        {
+          "from": "assets/pixer.bin",
+          "to": "assets/pixer.bin"
+        },
+        {
+          "from": "assets/image.png",
+          "to": "assets/image.png"
+        }
+      ]
     },
     "nsis": {
       "oneClick": false,

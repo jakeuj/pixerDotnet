@@ -3,10 +3,9 @@ name: Build and Release Electron App
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*' ]
   pull_request:
     branches: [ main ]
-  release:
-    types: [ published ]
 
 jobs:
   build:
@@ -60,15 +59,27 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'release'
+    if: startsWith(github.ref, 'refs/tags/v')
     
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       
-    - name: Release
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+    - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
+        tag_name: ${{ steps.get_version.outputs.VERSION }}
+        name: Release ${{ steps.get_version.outputs.VERSION }}
+        draft: false
+        prerelease: false
+        generate_release_notes: true
         files: |
           windows-build/*
           macos-build/*
