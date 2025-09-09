@@ -31,9 +31,20 @@ try
     );
 
     logger.LogInformation("Firmware upgrade check completed.");
+    
+    var activity = new MainActivity(loggerFactory.CreateLogger<MainActivity>());
+
+    // Check device status
+    await activity.CheckAsync();
 
     // Get image path from command line arguments
-    var imagePath = args.Length > 0 ? args[^1] : "image.png";
+    var imagePath = args.FirstOrDefault();
+
+    if (imagePath == null)
+    {
+        logger.LogInformation("No image path provided. Exiting.");
+        Environment.Exit(1);
+    }
 
     // check image path
     if (!File.Exists(imagePath))
@@ -41,12 +52,7 @@ try
         logger.LogError($"Image file not found: {imagePath}");
         Environment.Exit(1);
     }
-
-    var activity = new MainActivity(loggerFactory.CreateLogger<MainActivity>());
-
-    // Check device status
-    await activity.CheckAsync();
-
+    
     // If image path is provided as command line argument, convert and upload
 
     var converter = new ImgConverter(imagePath, loggerFactory.CreateLogger<ImgConverter>());
