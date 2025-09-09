@@ -13,7 +13,7 @@ dotnet publish PixerUpload.csproj \
     /p:IncludeNativeLibrariesForSelfExtract=false \
     /p:PublishTrimmed=true \
     /p:DeleteExistingFiles=true \
-    -o ../tools
+    -o ../electron/assets
 ```
 
 ### win
@@ -27,5 +27,5 @@ dotnet publish PixerUpload.csproj \
     /p:IncludeNativeLibrariesForSelfExtract=false \
     /p:PublishTrimmed=true \
     /p:DeleteExistingFiles=true \
-    -o ../tools
+    -o ../electron/assets
 ```

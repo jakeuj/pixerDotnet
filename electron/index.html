@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixer Upload Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖼️ Pixer Upload Tool</h1>
+            <p>將圖片上傳到您的 Pixer 裝置</p>
+        </header>
+
+        <main>
+            <!-- 系統資訊區域 -->
+            <section class="system-info">
+                <h3>系統資訊</h3>
+                <div id="systemInfo" class="info-content">
+                    <p>載入中...</p>
+                </div>
+            </section>
+
+            <!-- 裝置狀態區域 -->
+            <section class="device-status">
+                <h3>裝置狀態</h3>
+                <button id="checkDeviceBtn" class="btn btn-secondary">
+                    <span class="btn-icon">🔍</span>
+                    檢查裝置
+                </button>
+                <div id="deviceStatus" class="status-content">
+                    <p class="status-idle">點擊「檢查裝置」來檢查 Pixer 裝置連線狀態</p>
+                </div>
+            </section>
+
+            <!-- 圖片上傳區域 -->
+            <section class="upload-section">
+                <h3>圖片上傳</h3>
+                
+                <div class="upload-controls">
+                    <button id="selectImageBtn" class="btn btn-primary">
+                        <span class="btn-icon">📁</span>
+                        選擇圖片
+                    </button>
+                    
+                    <button id="uploadBtn" class="btn btn-success" disabled>
+                        <span class="btn-icon">📤</span>
+                        上傳圖片
+                    </button>
+                </div>
+
+                <div id="selectedImage" class="selected-image" style="display: none;">
+                    <h4>已選擇的圖片：</h4>
+                    <div class="image-info">
+                        <img id="imagePreview" src="" alt="圖片預覽" />
+                        <div class="image-details">
+                            <p id="imagePath"></p>
+                            <p id="imageSize"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="uploadProgress" class="progress-section" style="display: none;">
+                    <h4>上傳進度：</h4>
+                    <div class="progress-content">
+                        <div id="progressText"></div>
+                    </div>
+                </div>
+
+                <div id="uploadResult" class="result-section" style="display: none;">
+                    <h4>上傳結果：</h4>
+                    <div id="resultContent" class="result-content"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>基於 <a href="https://github.com/kasperis7/pixer" target="_blank">Pixer</a> 項目 | 
+               使用 Electron 和 .NET 9 構建</p>
+        </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
