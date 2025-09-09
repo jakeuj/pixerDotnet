@@ -39,6 +39,16 @@ header p {
     opacity: 0.9;
 }
 
+.debug-toggle {
+    margin-top: 10px;
+    color: white;
+    font-size: 0.9em;
+}
+
+.debug-toggle input {
+    margin-right: 5px;
+}
+
 /* 主要內容區域 */
 main {
     flex: 1;

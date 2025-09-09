@@ -12,15 +12,15 @@ try {
     },
     
     // 檢查裝置狀態
-    checkDevice: () => {
+    checkDevice: (debug) => {
       console.log('checkDevice called');
-      return ipcRenderer.invoke('check-device');
+      return ipcRenderer.invoke('check-device', debug);
     },
     
     // 上傳圖片
-    uploadImage: (imagePath) => {
-      console.log('uploadImage called with:', imagePath);
-      return ipcRenderer.invoke('upload-image', imagePath);
+    uploadImage: (imagePath, debug) => {
+      console.log('uploadImage called with:', imagePath, 'debug:', debug);
+      return ipcRenderer.invoke('upload-image', imagePath, debug);
     },
     
     // 獲取系統資訊

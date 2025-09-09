@@ -1,12 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using PixerUpload;
 using PixerUpload.Pixer;
+using System.Linq;
+
+// Handle command line arguments
+var argsList = args.ToList();
+var debugMode = argsList.Remove("--debug");
 
 // Configure logging
 using var loggerFactory = LoggerFactory.Create(builder =>
     builder
         .AddConsole()
-        .SetMinimumLevel(LogLevel.Debug)
+        .SetMinimumLevel(debugMode ? LogLevel.Debug : LogLevel.Information)
 );
 
 var logger = loggerFactory.CreateLogger<Program>();
@@ -33,7 +38,7 @@ try
     logger.LogInformation("Firmware upgrade check completed.");
 
     // Get image path from command line arguments
-    var imagePath = args.Length > 0 ? args[^1] : "image.png";
+    var imagePath = argsList.FirstOrDefault() ?? "image.png";
 
     // check image path
     if (!File.Exists(imagePath))
