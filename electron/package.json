@@ -47,10 +47,6 @@
           "to": "assets/PixerUpload.exe"
         },
         {
-          "from": "assets/PixerUpload.pdb",
-          "to": "assets/PixerUpload.pdb"
-        },
-        {
           "from": "assets/ble.bin",
           "to": "assets/ble.bin"
         },
@@ -61,10 +57,6 @@
         {
           "from": "assets/pixer.bin",
           "to": "assets/pixer.bin"
-        },
-        {
-          "from": "assets/image.png",
-          "to": "assets/image.png"
         }
       ]
     },
@@ -88,10 +80,6 @@
         {
           "from": "assets/pixer.bin",
           "to": "assets/pixer.bin"
-        },
-        {
-          "from": "assets/image.png",
-          "to": "assets/image.png"
         }
       ]
     },

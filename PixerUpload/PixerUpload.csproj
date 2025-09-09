@@ -12,19 +12,4 @@
       <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="ble.bin">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="ite.bin">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="pixer.bin">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="image.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>
