@@ -43,7 +43,7 @@ try
     if (imagePath == null)
     {
         logger.LogInformation("No image path provided. Exiting.");
-        Environment.Exit(1);
+        Environment.Exit(0);
     }
 
     // check image path
@@ -66,7 +66,7 @@ try
     else
     {
         logger.LogError($"Failed to convert image: {imagePath}");
-        Environment.Exit(1);
+        Environment.Exit(2);
     }
 
     // Uncomment the following line if you want to reset the device
@@ -75,5 +75,5 @@ try
 catch (Exception ex)
 {
     logger.LogError($"Application error: {ex.Message}");
-    Environment.Exit(1);
+    Environment.Exit(3);
 }

@@ -12,23 +12,23 @@
 ### osx
 
 ```bash
-dotnet publish PixerUpload/PixerUpload.csproj \
+dotnet publish PixerUpload.csproj \
     -c Release \
     -r osx-x64 \
     --self-contained true \
     /p:PublishSingleFile=true \
     /p:PublishTrimmed=true \
-    -o electron/assets
+    -o ../electron/assets
 ```
 
 ### win
 
 ```bash
-dotnet publish PixerUpload/PixerUpload.csproj \
+dotnet publish PixerUpload.csproj \
     -c Release \
     -r win-x64 \
     --self-contained true \
     /p:PublishSingleFile=true \
     /p:PublishTrimmed=true \
-    -o electron/assets
+    -o ../electron/assets
 ```
