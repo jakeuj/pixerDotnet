@@ -29,14 +29,9 @@
       "output": "dist"
     },
     "files": [
-      "main.js",
-      "preload.js",
-      "renderer.js",
-      "index.html",
-      "style.css",
-      "assets/**/*",
-      "!assets/PixerUpload.exe",
-      "!assets/PixerUpload"
+      "**/*.js",
+      "**/*.html",
+      "**/*.css"
     ],
     "win": {
       "target": "nsis",
@@ -45,6 +40,18 @@
         {
           "from": "assets/PixerUpload.exe",
           "to": "assets/PixerUpload.exe"
+        },
+        {
+          "from": "assets/ble.bin",
+          "to": "assets/ble.bin"
+        },
+        {
+          "from": "assets/ite.bin",
+          "to": "assets/ite.bin"
+        },
+        {
+          "from": "assets/pixer.bin",
+          "to": "assets/pixer.bin"
         }
       ]
     },
@@ -56,6 +63,18 @@
         {
           "from": "assets/PixerUpload",
           "to": "assets/PixerUpload"
+        },
+        {
+          "from": "assets/ble.bin",
+          "to": "assets/ble.bin"
+        },
+        {
+          "from": "assets/ite.bin",
+          "to": "assets/ite.bin"
+        },
+        {
+          "from": "assets/pixer.bin",
+          "to": "assets/pixer.bin"
         }
       ]
     },
