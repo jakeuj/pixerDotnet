@@ -1,0 +1,76 @@
+name: Build and Release Electron App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: electron/package-lock.json
+        
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./electron
+      
+    - name: Build Electron app (Windows)
+      if: matrix.os == 'windows-latest'
+      run: npm run build -- --win --x64
+      working-directory: ./electron
+      
+    - name: Build Electron app (macOS)
+      if: matrix.os == 'macos-latest'
+      run: npm run build -- --mac --x64
+      working-directory: ./electron
+      
+    - name: Upload Windows artifacts
+      if: matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: electron/dist/*.exe
+        if-no-files-found: warn
+        
+    - name: Upload macOS artifacts
+      if: matrix.os == 'macos-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-build
+        path: electron/dist/*.dmg
+        if-no-files-found: warn
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          windows-build/*
+          macos-build/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
